@@ -1,0 +1,1 @@
+[{"node":"GPIOB","expanded":true,"format":0,"pinned":false},{"node":"GPIOB.MODER","expanded":true,"format":0},{"node":"RCC","expanded":true,"format":0,"pinned":false},{"node":"RCC.AHB2ENR","expanded":true,"format":0},{"node":"RCC.APB2ENR","expanded":true,"format":0},{"node":"RCC.AHB3SMENR","expanded":true,"format":0}]

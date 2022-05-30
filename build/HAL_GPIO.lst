@@ -1,0 +1,595 @@
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"HAL_GPIO.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.config_pin,"ax",%progbits
+  20              		.align	1
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	config_pin:
+  26              	.LVL0:
+  27              	.LFB132:
+  28              		.file 1 "Core/Src/HAL_GPIO.c"
+   1:Core/Src/HAL_GPIO.c **** #include "HAL_GPIO.h"
+   2:Core/Src/HAL_GPIO.c **** #include <stdint.h>
+   3:Core/Src/HAL_GPIO.c **** 
+   4:Core/Src/HAL_GPIO.c **** //To calculate register position based on pin number
+   5:Core/Src/HAL_GPIO.c **** uint32_t PINPOS[16] = {
+   6:Core/Src/HAL_GPIO.c ****     (0x00),
+   7:Core/Src/HAL_GPIO.c ****     (0x02),
+   8:Core/Src/HAL_GPIO.c ****     (0x04),
+   9:Core/Src/HAL_GPIO.c ****     (0x06),
+  10:Core/Src/HAL_GPIO.c ****     (0x08),
+  11:Core/Src/HAL_GPIO.c ****     (0x0A),
+  12:Core/Src/HAL_GPIO.c ****     (0x0C),
+  13:Core/Src/HAL_GPIO.c ****     (0x0E),
+  14:Core/Src/HAL_GPIO.c ****     (0x10),
+  15:Core/Src/HAL_GPIO.c ****     (0x12),
+  16:Core/Src/HAL_GPIO.c ****     (0x14),
+  17:Core/Src/HAL_GPIO.c ****     (0x16),
+  18:Core/Src/HAL_GPIO.c ****     (0x18),
+  19:Core/Src/HAL_GPIO.c ****     (0x1A),
+  20:Core/Src/HAL_GPIO.c ****     (0x1C),
+  21:Core/Src/HAL_GPIO.c ****     (0x1E)
+  22:Core/Src/HAL_GPIO.c **** };
+  23:Core/Src/HAL_GPIO.c **** 
+  24:Core/Src/HAL_GPIO.c **** static void config_pin(GPIO_TypeDef *port, uint32_t pinNumber, uint32_t pinMode)
+  25:Core/Src/HAL_GPIO.c **** {
+  29              		.loc 1 25 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33              		@ link register save eliminated.
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s 			page 2
+
+
+  34              		.loc 1 25 1 is_stmt 0 view .LVU1
+  35 0000 70B4     		push	{r4, r5, r6}
+  36              	.LCFI0:
+  37              		.cfi_def_cfa_offset 12
+  38              		.cfi_offset 4, -12
+  39              		.cfi_offset 5, -8
+  40              		.cfi_offset 6, -4
+  26:Core/Src/HAL_GPIO.c ****     /*switch(pinMode)
+  27:Core/Src/HAL_GPIO.c ****     {
+  28:Core/Src/HAL_GPIO.c ****         case INPUT_MODE:
+  29:Core/Src/HAL_GPIO.c ****         port->MODER &= ~((1<<MODEx) | (1<<MODEy));
+  30:Core/Src/HAL_GPIO.c ****         break;
+  31:Core/Src/HAL_GPIO.c **** 
+  32:Core/Src/HAL_GPIO.c ****         case GENERAL_PURPOSE_OUTPUT_MODE:
+  33:Core/Src/HAL_GPIO.c ****         port->MODER &= ~(1<<MODEy); 
+  34:Core/Src/HAL_GPIO.c ****         port->MODER |= (1<<MODEx);
+  35:Core/Src/HAL_GPIO.c ****         break;
+  36:Core/Src/HAL_GPIO.c **** 
+  37:Core/Src/HAL_GPIO.c ****         case ALTERNATE_FUNCTION_MODE:
+  38:Core/Src/HAL_GPIO.c ****         port->MODER |= (1<<MODEy);
+  39:Core/Src/HAL_GPIO.c ****         break;
+  40:Core/Src/HAL_GPIO.c **** 
+  41:Core/Src/HAL_GPIO.c ****         case ANALOG_MODE:
+  42:Core/Src/HAL_GPIO.c ****         port->MODER |= ((1<<MODEx) | (1<<MODEy));
+  43:Core/Src/HAL_GPIO.c ****         break;
+  44:Core/Src/HAL_GPIO.c **** 
+  45:Core/Src/HAL_GPIO.c ****     }*/
+  46:Core/Src/HAL_GPIO.c ****     port->MODER &= ~((1<<PINPOS[pinNumber]) | (1<<(PINPOS[pinNumber]+1)));
+  41              		.loc 1 46 5 is_stmt 1 view .LVU2
+  42              		.loc 1 46 17 is_stmt 0 view .LVU3
+  43 0002 0568     		ldr	r5, [r0]
+  44              		.loc 1 46 32 view .LVU4
+  45 0004 0A4E     		ldr	r6, .L3
+  46 0006 56F82140 		ldr	r4, [r6, r1, lsl #2]
+  47              		.loc 1 46 24 view .LVU5
+  48 000a 0123     		movs	r3, #1
+  49 000c 03FA04FC 		lsl	ip, r3, r4
+  50              		.loc 1 46 69 view .LVU6
+  51 0010 1C44     		add	r4, r4, r3
+  52              		.loc 1 46 49 view .LVU7
+  53 0012 A340     		lsls	r3, r3, r4
+  54              		.loc 1 46 45 view .LVU8
+  55 0014 4CEA0303 		orr	r3, ip, r3
+  56              		.loc 1 46 17 view .LVU9
+  57 0018 25EA0303 		bic	r3, r5, r3
+  58 001c 0360     		str	r3, [r0]
+  47:Core/Src/HAL_GPIO.c ****     port->MODER |= (pinMode<<(PINPOS[pinNumber]));
+  59              		.loc 1 47 5 is_stmt 1 view .LVU10
+  60              		.loc 1 47 17 is_stmt 0 view .LVU11
+  61 001e 0368     		ldr	r3, [r0]
+  62              		.loc 1 47 37 view .LVU12
+  63 0020 56F82110 		ldr	r1, [r6, r1, lsl #2]
+  64              	.LVL1:
+  65              		.loc 1 47 28 view .LVU13
+  66 0024 8A40     		lsls	r2, r2, r1
+  67              	.LVL2:
+  68              		.loc 1 47 17 view .LVU14
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s 			page 3
+
+
+  69 0026 1343     		orrs	r3, r3, r2
+  70 0028 0360     		str	r3, [r0]
+  48:Core/Src/HAL_GPIO.c **** 
+  49:Core/Src/HAL_GPIO.c **** 
+  50:Core/Src/HAL_GPIO.c **** }
+  71              		.loc 1 50 1 view .LVU15
+  72 002a 70BC     		pop	{r4, r5, r6}
+  73              	.LCFI1:
+  74              		.cfi_restore 6
+  75              		.cfi_restore 5
+  76              		.cfi_restore 4
+  77              		.cfi_def_cfa_offset 0
+  78 002c 7047     		bx	lr
+  79              	.L4:
+  80 002e 00BF     		.align	2
+  81              	.L3:
+  82 0030 00000000 		.word	.LANCHOR0
+  83              		.cfi_endproc
+  84              	.LFE132:
+  86              		.section	.text.config_pin_speed,"ax",%progbits
+  87              		.align	1
+  88              		.syntax unified
+  89              		.thumb
+  90              		.thumb_func
+  92              	config_pin_speed:
+  93              	.LVL3:
+  94              	.LFB133:
+  51:Core/Src/HAL_GPIO.c **** 
+  52:Core/Src/HAL_GPIO.c **** 
+  53:Core/Src/HAL_GPIO.c **** static void config_pin_speed(GPIO_TypeDef *port, uint32_t pinNumber, uint32_t pinSpeed)
+  54:Core/Src/HAL_GPIO.c **** {
+  95              		.loc 1 54 1 is_stmt 1 view -0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 0
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99              		@ link register save eliminated.
+ 100              		.loc 1 54 1 is_stmt 0 view .LVU17
+ 101 0000 10B4     		push	{r4}
+ 102              	.LCFI2:
+ 103              		.cfi_def_cfa_offset 4
+ 104              		.cfi_offset 4, -4
+  55:Core/Src/HAL_GPIO.c ****     port->OSPEEDR |= (pinSpeed<< (PINPOS[pinNumber]));
+ 105              		.loc 1 55 5 is_stmt 1 view .LVU18
+ 106              		.loc 1 55 19 is_stmt 0 view .LVU19
+ 107 0002 8368     		ldr	r3, [r0, #8]
+ 108              		.loc 1 55 41 view .LVU20
+ 109 0004 044C     		ldr	r4, .L7
+ 110 0006 54F82110 		ldr	r1, [r4, r1, lsl #2]
+ 111              	.LVL4:
+ 112              		.loc 1 55 31 view .LVU21
+ 113 000a 8A40     		lsls	r2, r2, r1
+ 114              	.LVL5:
+ 115              		.loc 1 55 19 view .LVU22
+ 116 000c 1343     		orrs	r3, r3, r2
+ 117 000e 8360     		str	r3, [r0, #8]
+  56:Core/Src/HAL_GPIO.c **** }
+ 118              		.loc 1 56 1 view .LVU23
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s 			page 4
+
+
+ 119 0010 5DF8044B 		ldr	r4, [sp], #4
+ 120              	.LCFI3:
+ 121              		.cfi_restore 4
+ 122              		.cfi_def_cfa_offset 0
+ 123 0014 7047     		bx	lr
+ 124              	.L8:
+ 125 0016 00BF     		.align	2
+ 126              	.L7:
+ 127 0018 00000000 		.word	.LANCHOR0
+ 128              		.cfi_endproc
+ 129              	.LFE133:
+ 131              		.section	.text.config_output_type,"ax",%progbits
+ 132              		.align	1
+ 133              		.syntax unified
+ 134              		.thumb
+ 135              		.thumb_func
+ 137              	config_output_type:
+ 138              	.LVL6:
+ 139              	.LFB134:
+  57:Core/Src/HAL_GPIO.c **** 
+  58:Core/Src/HAL_GPIO.c **** static void config_output_type(GPIO_TypeDef *port, uint32_t pinNumber, uint32_t outputType)
+  59:Core/Src/HAL_GPIO.c **** {
+ 140              		.loc 1 59 1 is_stmt 1 view -0
+ 141              		.cfi_startproc
+ 142              		@ args = 0, pretend = 0, frame = 0
+ 143              		@ frame_needed = 0, uses_anonymous_args = 0
+ 144              		@ link register save eliminated.
+  60:Core/Src/HAL_GPIO.c ****     port->OTYPER |= (outputType<< (pinNumber));
+ 145              		.loc 1 60 5 view .LVU25
+ 146              		.loc 1 60 18 is_stmt 0 view .LVU26
+ 147 0000 4368     		ldr	r3, [r0, #4]
+ 148              		.loc 1 60 32 view .LVU27
+ 149 0002 8A40     		lsls	r2, r2, r1
+ 150              	.LVL7:
+ 151              		.loc 1 60 18 view .LVU28
+ 152 0004 1343     		orrs	r3, r3, r2
+ 153 0006 4360     		str	r3, [r0, #4]
+  61:Core/Src/HAL_GPIO.c **** }
+ 154              		.loc 1 61 1 view .LVU29
+ 155 0008 7047     		bx	lr
+ 156              		.cfi_endproc
+ 157              	.LFE134:
+ 159              		.section	.text.config_pu_pd,"ax",%progbits
+ 160              		.align	1
+ 161              		.syntax unified
+ 162              		.thumb
+ 163              		.thumb_func
+ 165              	config_pu_pd:
+ 166              	.LVL8:
+ 167              	.LFB135:
+  62:Core/Src/HAL_GPIO.c **** 
+  63:Core/Src/HAL_GPIO.c **** static void config_pu_pd(GPIO_TypeDef *port, uint32_t pinNumber, uint32_t PuPdType)
+  64:Core/Src/HAL_GPIO.c **** {
+ 168              		.loc 1 64 1 is_stmt 1 view -0
+ 169              		.cfi_startproc
+ 170              		@ args = 0, pretend = 0, frame = 0
+ 171              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s 			page 5
+
+
+ 172              		@ link register save eliminated.
+ 173              		.loc 1 64 1 is_stmt 0 view .LVU31
+ 174 0000 10B4     		push	{r4}
+ 175              	.LCFI4:
+ 176              		.cfi_def_cfa_offset 4
+ 177              		.cfi_offset 4, -4
+  65:Core/Src/HAL_GPIO.c ****     port->PUPDR |= (PuPdType<< (PINPOS[pinNumber]));
+ 178              		.loc 1 65 5 is_stmt 1 view .LVU32
+ 179              		.loc 1 65 17 is_stmt 0 view .LVU33
+ 180 0002 C368     		ldr	r3, [r0, #12]
+ 181              		.loc 1 65 39 view .LVU34
+ 182 0004 044C     		ldr	r4, .L12
+ 183 0006 54F82110 		ldr	r1, [r4, r1, lsl #2]
+ 184              	.LVL9:
+ 185              		.loc 1 65 29 view .LVU35
+ 186 000a 8A40     		lsls	r2, r2, r1
+ 187              	.LVL10:
+ 188              		.loc 1 65 17 view .LVU36
+ 189 000c 1343     		orrs	r3, r3, r2
+ 190 000e C360     		str	r3, [r0, #12]
+  66:Core/Src/HAL_GPIO.c **** }
+ 191              		.loc 1 66 1 view .LVU37
+ 192 0010 5DF8044B 		ldr	r4, [sp], #4
+ 193              	.LCFI5:
+ 194              		.cfi_restore 4
+ 195              		.cfi_def_cfa_offset 0
+ 196 0014 7047     		bx	lr
+ 197              	.L13:
+ 198 0016 00BF     		.align	2
+ 199              	.L12:
+ 200 0018 00000000 		.word	.LANCHOR0
+ 201              		.cfi_endproc
+ 202              	.LFE135:
+ 204              		.section	.text.gpio_write,"ax",%progbits
+ 205              		.align	1
+ 206              		.global	gpio_write
+ 207              		.syntax unified
+ 208              		.thumb
+ 209              		.thumb_func
+ 211              	gpio_write:
+ 212              	.LVL11:
+ 213              	.LFB136:
+  67:Core/Src/HAL_GPIO.c **** 
+  68:Core/Src/HAL_GPIO.c **** void gpio_write(GPIO_TypeDef *port, uint32_t pinNumber, uint8_t state)
+  69:Core/Src/HAL_GPIO.c **** {
+ 214              		.loc 1 69 1 is_stmt 1 view -0
+ 215              		.cfi_startproc
+ 216              		@ args = 0, pretend = 0, frame = 0
+ 217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 218              		@ link register save eliminated.
+  70:Core/Src/HAL_GPIO.c ****     if(state)
+ 219              		.loc 1 70 5 view .LVU39
+ 220              		.loc 1 70 7 is_stmt 0 view .LVU40
+ 221 0000 22B1     		cbz	r2, .L15
+  71:Core/Src/HAL_GPIO.c ****     {
+  72:Core/Src/HAL_GPIO.c ****         port->BSRR = (1<<pinNumber);
+ 222              		.loc 1 72 9 is_stmt 1 view .LVU41
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s 			page 6
+
+
+ 223              		.loc 1 72 24 is_stmt 0 view .LVU42
+ 224 0002 0123     		movs	r3, #1
+ 225 0004 03FA01F1 		lsl	r1, r3, r1
+ 226              	.LVL12:
+ 227              		.loc 1 72 20 view .LVU43
+ 228 0008 8161     		str	r1, [r0, #24]
+ 229 000a 7047     		bx	lr
+ 230              	.LVL13:
+ 231              	.L15:
+  73:Core/Src/HAL_GPIO.c **** 
+  74:Core/Src/HAL_GPIO.c ****     }
+  75:Core/Src/HAL_GPIO.c ****     else
+  76:Core/Src/HAL_GPIO.c ****     {
+  77:Core/Src/HAL_GPIO.c ****         port->BSRR = (1<<(pinNumber + 16));
+ 232              		.loc 1 77 9 is_stmt 1 view .LVU44
+ 233              		.loc 1 77 37 is_stmt 0 view .LVU45
+ 234 000c 1031     		adds	r1, r1, #16
+ 235              	.LVL14:
+ 236              		.loc 1 77 24 view .LVU46
+ 237 000e 0123     		movs	r3, #1
+ 238 0010 03FA01F1 		lsl	r1, r3, r1
+ 239              	.LVL15:
+ 240              		.loc 1 77 20 view .LVU47
+ 241 0014 8161     		str	r1, [r0, #24]
+  78:Core/Src/HAL_GPIO.c ****     }
+  79:Core/Src/HAL_GPIO.c **** }
+ 242              		.loc 1 79 1 view .LVU48
+ 243 0016 7047     		bx	lr
+ 244              		.cfi_endproc
+ 245              	.LFE136:
+ 247              		.section	.text.gpio_toggle,"ax",%progbits
+ 248              		.align	1
+ 249              		.global	gpio_toggle
+ 250              		.syntax unified
+ 251              		.thumb
+ 252              		.thumb_func
+ 254              	gpio_toggle:
+ 255              	.LVL16:
+ 256              	.LFB137:
+  80:Core/Src/HAL_GPIO.c **** 
+  81:Core/Src/HAL_GPIO.c **** void gpio_toggle(GPIO_TypeDef *port, uint32_t pinNumber)
+  82:Core/Src/HAL_GPIO.c **** {
+ 257              		.loc 1 82 1 is_stmt 1 view -0
+ 258              		.cfi_startproc
+ 259              		@ args = 0, pretend = 0, frame = 0
+ 260              		@ frame_needed = 0, uses_anonymous_args = 0
+ 261              		@ link register save eliminated.
+  83:Core/Src/HAL_GPIO.c ****     port->ODR ^= (1<<pinNumber);
+ 262              		.loc 1 83 5 view .LVU50
+ 263              		.loc 1 83 15 is_stmt 0 view .LVU51
+ 264 0000 4369     		ldr	r3, [r0, #20]
+ 265              		.loc 1 83 20 view .LVU52
+ 266 0002 0122     		movs	r2, #1
+ 267 0004 8A40     		lsls	r2, r2, r1
+ 268              		.loc 1 83 15 view .LVU53
+ 269 0006 5340     		eors	r3, r3, r2
+ 270 0008 4361     		str	r3, [r0, #20]
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s 			page 7
+
+
+  84:Core/Src/HAL_GPIO.c **** }
+ 271              		.loc 1 84 1 view .LVU54
+ 272 000a 7047     		bx	lr
+ 273              		.cfi_endproc
+ 274              	.LFE137:
+ 276              		.section	.text.gpio_init,"ax",%progbits
+ 277              		.align	1
+ 278              		.global	gpio_init
+ 279              		.syntax unified
+ 280              		.thumb
+ 281              		.thumb_func
+ 283              	gpio_init:
+ 284              	.LFB138:
+  85:Core/Src/HAL_GPIO.c **** 
+  86:Core/Src/HAL_GPIO.c **** 
+  87:Core/Src/HAL_GPIO.c **** void gpio_init(GPIO_TYPE gpio_type)
+  88:Core/Src/HAL_GPIO.c **** {
+ 285              		.loc 1 88 1 is_stmt 1 view -0
+ 286              		.cfi_startproc
+ 287              		@ args = 28, pretend = 16, frame = 0
+ 288              		@ frame_needed = 0, uses_anonymous_args = 0
+ 289 0000 84B0     		sub	sp, sp, #16
+ 290              	.LCFI6:
+ 291              		.cfi_def_cfa_offset 16
+ 292 0002 38B5     		push	{r3, r4, r5, lr}
+ 293              	.LCFI7:
+ 294              		.cfi_def_cfa_offset 32
+ 295              		.cfi_offset 3, -32
+ 296              		.cfi_offset 4, -28
+ 297              		.cfi_offset 5, -24
+ 298              		.cfi_offset 14, -20
+ 299 0004 04AC     		add	r4, sp, #16
+ 300 0006 84E80F00 		stm	r4, {r0, r1, r2, r3}
+  89:Core/Src/HAL_GPIO.c ****     
+  90:Core/Src/HAL_GPIO.c ****     if(gpio_type.port == PORTA)
+ 301              		.loc 1 90 5 view .LVU56
+ 302              		.loc 1 90 17 is_stmt 0 view .LVU57
+ 303 000a 0446     		mov	r4, r0
+ 304              		.loc 1 90 7 view .LVU58
+ 305 000c B0F1904F 		cmp	r0, #1207959552
+ 306 0010 21D0     		beq	.L24
+ 307              	.L19:
+  91:Core/Src/HAL_GPIO.c ****     {
+  92:Core/Src/HAL_GPIO.c ****         GPIOA_CLOCK_ENABLE;
+  93:Core/Src/HAL_GPIO.c ****         
+  94:Core/Src/HAL_GPIO.c ****     }
+  95:Core/Src/HAL_GPIO.c **** 
+  96:Core/Src/HAL_GPIO.c ****     if(gpio_type.port == PORTB)
+ 308              		.loc 1 96 5 is_stmt 1 view .LVU59
+ 309              		.loc 1 96 7 is_stmt 0 view .LVU60
+ 310 0012 1D4B     		ldr	r3, .L28
+ 311 0014 9C42     		cmp	r4, r3
+ 312 0016 24D0     		beq	.L25
+ 313              	.L20:
+  97:Core/Src/HAL_GPIO.c ****     {
+  98:Core/Src/HAL_GPIO.c ****         GPIOB_CLOCK_ENABLE;
+  99:Core/Src/HAL_GPIO.c ****         
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s 			page 8
+
+
+ 100:Core/Src/HAL_GPIO.c ****     }
+ 101:Core/Src/HAL_GPIO.c ****     
+ 102:Core/Src/HAL_GPIO.c ****     if(gpio_type.port == PORTC)
+ 314              		.loc 1 102 5 is_stmt 1 view .LVU61
+ 315              		.loc 1 102 7 is_stmt 0 view .LVU62
+ 316 0018 1C4B     		ldr	r3, .L28+4
+ 317 001a 9C42     		cmp	r4, r3
+ 318 001c 27D0     		beq	.L26
+ 319              	.L21:
+ 103:Core/Src/HAL_GPIO.c ****     {
+ 104:Core/Src/HAL_GPIO.c ****         GPIOC_CLOCK_ENABLE;
+ 105:Core/Src/HAL_GPIO.c ****         
+ 106:Core/Src/HAL_GPIO.c ****     }
+ 107:Core/Src/HAL_GPIO.c **** 
+ 108:Core/Src/HAL_GPIO.c ****     if(gpio_type.port == PORTD)
+ 320              		.loc 1 108 5 is_stmt 1 view .LVU63
+ 321              		.loc 1 108 7 is_stmt 0 view .LVU64
+ 322 001e 1C4B     		ldr	r3, .L28+8
+ 323 0020 9C42     		cmp	r4, r3
+ 324 0022 2AD0     		beq	.L27
+ 325              	.L22:
+ 109:Core/Src/HAL_GPIO.c ****     {
+ 110:Core/Src/HAL_GPIO.c ****         GPIOD_CLOCK_ENABLE; 
+ 111:Core/Src/HAL_GPIO.c ****         
+ 112:Core/Src/HAL_GPIO.c ****     } 
+ 113:Core/Src/HAL_GPIO.c **** 
+ 114:Core/Src/HAL_GPIO.c ****     config_pin(gpio_type.port, gpio_type.pin, gpio_type.input_mode_type);
+ 326              		.loc 1 114 5 is_stmt 1 view .LVU65
+ 327 0024 059D     		ldr	r5, [sp, #20]
+ 328 0026 079A     		ldr	r2, [sp, #28]
+ 329 0028 2946     		mov	r1, r5
+ 330 002a 2046     		mov	r0, r4
+ 331 002c FFF7FEFF 		bl	config_pin
+ 332              	.LVL17:
+ 115:Core/Src/HAL_GPIO.c ****     config_output_type(gpio_type.port, gpio_type.pin, gpio_type.output_mode_type);
+ 333              		.loc 1 115 5 view .LVU66
+ 334 0030 089A     		ldr	r2, [sp, #32]
+ 335 0032 2946     		mov	r1, r5
+ 336 0034 2046     		mov	r0, r4
+ 337 0036 FFF7FEFF 		bl	config_output_type
+ 338              	.LVL18:
+ 116:Core/Src/HAL_GPIO.c ****     config_pin_speed(gpio_type.port, gpio_type.pin, gpio_type.speed); 
+ 339              		.loc 1 116 5 view .LVU67
+ 340 003a 0A9A     		ldr	r2, [sp, #40]
+ 341 003c 2946     		mov	r1, r5
+ 342 003e 2046     		mov	r0, r4
+ 343 0040 FFF7FEFF 		bl	config_pin_speed
+ 344              	.LVL19:
+ 117:Core/Src/HAL_GPIO.c ****     config_pu_pd(gpio_type.port, gpio_type.pin, gpio_type.pull); 
+ 345              		.loc 1 117 5 view .LVU68
+ 346 0044 099A     		ldr	r2, [sp, #36]
+ 347 0046 2946     		mov	r1, r5
+ 348 0048 2046     		mov	r0, r4
+ 349 004a FFF7FEFF 		bl	config_pu_pd
+ 350              	.LVL20:
+ 118:Core/Src/HAL_GPIO.c **** }...
+ 351              		.loc 1 118 1 is_stmt 0 view .LVU69
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s 			page 9
+
+
+ 352 004e BDE83840 		pop	{r3, r4, r5, lr}
+ 353              	.LCFI8:
+ 354              		.cfi_remember_state
+ 355              		.cfi_restore 14
+ 356              		.cfi_restore 5
+ 357              		.cfi_restore 4
+ 358              		.cfi_restore 3
+ 359              		.cfi_def_cfa_offset 16
+ 360 0052 04B0     		add	sp, sp, #16
+ 361              	.LCFI9:
+ 362              		.cfi_def_cfa_offset 0
+ 363 0054 7047     		bx	lr
+ 364              	.L24:
+ 365              	.LCFI10:
+ 366              		.cfi_restore_state
+  92:Core/Src/HAL_GPIO.c ****         GPIOA_CLOCK_ENABLE;
+ 367              		.loc 1 92 9 is_stmt 1 view .LVU70
+ 368 0056 0F4A     		ldr	r2, .L28+12
+ 369 0058 D36C     		ldr	r3, [r2, #76]
+ 370 005a 43F00103 		orr	r3, r3, #1
+ 371 005e D364     		str	r3, [r2, #76]
+ 372 0060 D7E7     		b	.L19
+ 373              	.L25:
+  98:Core/Src/HAL_GPIO.c ****         GPIOB_CLOCK_ENABLE;
+ 374              		.loc 1 98 9 view .LVU71
+ 375 0062 0C4A     		ldr	r2, .L28+12
+ 376 0064 D36C     		ldr	r3, [r2, #76]
+ 377 0066 43F00203 		orr	r3, r3, #2
+ 378 006a D364     		str	r3, [r2, #76]
+ 379 006c D4E7     		b	.L20
+ 380              	.L26:
+ 104:Core/Src/HAL_GPIO.c ****         GPIOC_CLOCK_ENABLE;
+ 381              		.loc 1 104 9 view .LVU72
+ 382 006e 094A     		ldr	r2, .L28+12
+ 383 0070 D36C     		ldr	r3, [r2, #76]
+ 384 0072 43F00403 		orr	r3, r3, #4
+ 385 0076 D364     		str	r3, [r2, #76]
+ 386 0078 D1E7     		b	.L21
+ 387              	.L27:
+ 110:Core/Src/HAL_GPIO.c ****         GPIOD_CLOCK_ENABLE; 
+ 388              		.loc 1 110 9 view .LVU73
+ 389 007a 064A     		ldr	r2, .L28+12
+ 390 007c D36C     		ldr	r3, [r2, #76]
+ 391 007e 43F00803 		orr	r3, r3, #8
+ 392 0082 D364     		str	r3, [r2, #76]
+ 393 0084 CEE7     		b	.L22
+ 394              	.L29:
+ 395 0086 00BF     		.align	2
+ 396              	.L28:
+ 397 0088 00040048 		.word	1207960576
+ 398 008c 00080048 		.word	1207961600
+ 399 0090 000C0048 		.word	1207962624
+ 400 0094 00100240 		.word	1073876992
+ 401              		.cfi_endproc
+ 402              	.LFE138:
+ 404              		.global	PINPOS
+ 405              		.section	.data.PINPOS,"aw"
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s 			page 10
+
+
+ 406              		.align	2
+ 407              		.set	.LANCHOR0,. + 0
+ 410              	PINPOS:
+ 411 0000 00000000 		.word	0
+ 412 0004 02000000 		.word	2
+ 413 0008 04000000 		.word	4
+ 414 000c 06000000 		.word	6
+ 415 0010 08000000 		.word	8
+ 416 0014 0A000000 		.word	10
+ 417 0018 0C000000 		.word	12
+ 418 001c 0E000000 		.word	14
+ 419 0020 10000000 		.word	16
+ 420 0024 12000000 		.word	18
+ 421 0028 14000000 		.word	20
+ 422 002c 16000000 		.word	22
+ 423 0030 18000000 		.word	24
+ 424 0034 1A000000 		.word	26
+ 425 0038 1C000000 		.word	28
+ 426 003c 1E000000 		.word	30
+ 427              		.text
+ 428              	.Letext0:
+ 429              		.file 2 "c:\\tools\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-none
+ 430              		.file 3 "c:\\tools\\gcc-arm-none-eabi-10.3-2021.10-win32\\gcc-arm-none-eabi-10.3-2021.10\\arm-none
+ 431              		.file 4 "Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l475xx.h"
+ 432              		.file 5 "Core/Inc/HAL_GPIO.h"
+ARM GAS  C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s 			page 11
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 HAL_GPIO.c
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:20     .text.config_pin:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:25     .text.config_pin:00000000 config_pin
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:82     .text.config_pin:00000030 $d
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:87     .text.config_pin_speed:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:92     .text.config_pin_speed:00000000 config_pin_speed
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:127    .text.config_pin_speed:00000018 $d
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:132    .text.config_output_type:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:137    .text.config_output_type:00000000 config_output_type
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:160    .text.config_pu_pd:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:165    .text.config_pu_pd:00000000 config_pu_pd
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:200    .text.config_pu_pd:00000018 $d
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:205    .text.gpio_write:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:211    .text.gpio_write:00000000 gpio_write
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:248    .text.gpio_toggle:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:254    .text.gpio_toggle:00000000 gpio_toggle
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:277    .text.gpio_init:00000000 $t
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:283    .text.gpio_init:00000000 gpio_init
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:397    .text.gpio_init:00000088 $d
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:410    .data.PINPOS:00000000 PINPOS
+C:\Users\imkar\AppData\Local\Temp\ccY5q3ee.s:406    .data.PINPOS:00000000 $d
+
+NO UNDEFINED SYMBOLS
